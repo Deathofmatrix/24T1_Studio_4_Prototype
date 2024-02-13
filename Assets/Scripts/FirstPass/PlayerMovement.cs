@@ -7,8 +7,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-    public float moveSpeedMultiplier;
+    public float swingSpeed;
     public bool isSprinting;
+    public bool isSwinging;
 
     public float groundDrag;
 
@@ -95,20 +96,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (activeGrapple) return;
 
-        float currentSpeed = moveSpeed;
-
-        if (isSprinting)
-        {
-            currentSpeed *= moveSpeedMultiplier;
-        }
-
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         if (grounded)
-            rb.AddForce(moveDirection.normalized * currentSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         else if(!grounded)
-            rb.AddForce(moveDirection.normalized * currentSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
     private void SpeedControl()
